@@ -6259,3 +6259,27 @@ input[type=number]::-webkit-inner-spin-button {
 nav a#pull {
   display: none;
 }
+
+
+/* ==========================================================================
+   30. CUSTOM STYLES (찜하기 버튼)
+   ========================================================================== */
+
+/* 찜하기 활성화 스타일 */
+.btn-liked {
+    background-color: #e3000e !important; /* 사이트 테마 빨간색 */
+    border-color: #e3000e !important;
+    color: #ffffff !important; /* 흰색 글씨 */
+}
+
+/* 찜하기 활성화 시 아이콘 색상 */
+.btn-liked span {
+    color: #ffffff !important;
+}
+
+/* 찜하기 활성화 상태에서 마우스 올렸을 때 (호버) */
+.btn-liked:hover {
+    background-color: #c6020e !important; /* 조금 더 진한 빨간색 */
+    border-color: #c6020e !important;
+    color: #ffffff !important;
+}
