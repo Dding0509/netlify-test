@@ -680,45 +680,52 @@
     <script src="https://ogaeng.com/external/burger/js/custom.js"></script>
 
     <script type="text/javascript">
-        // 1. 예약 폼 전송 스크립트
+        // [1] 예약 폼 전송 스크립트
         $('#rvform').submit(function() {
             document.getElementById('rvform').style.display = 'none'; 
             document.getElementById('thankyou_message').style.display = 'block';
             return false;
         });
 
-        // 2. 찜하기 버튼 & 오른쪽 위 하트 아이콘 연동 스크립트
+        // [2] 찜하기 버튼 & 위쪽 하트 아이콘 연동 스크립트
         $(document).ready(function() {
+            // 버튼 클릭 시 실행
             $('a[data-target="#wishlist"]').click(function() {
                 
-                // 지금 클릭한 '찜하기' 버튼
+                // 클릭한 버튼
                 var btn = $(this);
                 
-                // 버튼의 부모 요소(메뉴 박스 전체)를 찾고, 그 안에서 '오른쪽 위 하트 아이콘' 찾기
+                // 버튼을 감싸고 있는 전체 박스(메뉴 아이템) 찾기
                 var parentBox = btn.closest('.menu-7-item');
+                
+                // 그 박스 안에 있는 '오른쪽 위 하트 아이콘' 찾기
                 var topHeartIcon = parentBox.find('.like-ico span');
 
-                // 버튼 클래스 토글 (활성화 여부)
+                // 버튼에 'btn-liked' 클래스를 줬다 뺏었다 함 (토글)
                 btn.toggleClass('btn-liked');
 
+                // 버튼이 빨간색(활성화) 상태라면?
                 if (btn.hasClass('btn-liked')) {
-                    // [찜하기 상태 ON]
                     
-                    // 1. 아래 버튼: 빨간 배경 + '찜 완료' + 꽉 찬 하트
+                    // 1. 아래 버튼 내용 변경: 아이콘 꽉 찬 하트로 + 텍스트 '찜 완료'
                     btn.html('<span class="fas fa-heart"></span> 찜 완료'); 
                     
-                    // 2. 위쪽 하트 아이콘: 꽉 찬 하트(fas fa-heart)로 변경 + 빨간색(#e3000e)
-                    topHeartIcon.removeClass('flaticon-heart').addClass('fas fa-heart');
-                    topHeartIcon.css('color', '#e3000e');
+                    // 2. 위쪽 하트 아이콘 변경:
+                    // 기존 빈 하트(flaticon-heart) 제거 -> 꽉 찬 하트(fas fa-heart) 추가 -> 빨간색 클래스 추가
+                    topHeartIcon.removeClass('flaticon-heart');
+                    topHeartIcon.addClass('fas fa-heart heart-active');
 
                 } else {
-                    // [찜하기 상태 OFF]
+                    // 찜하기 취소 상태라면? (원상복구)
                     
-                    // 1. 아래 버튼: 원래대로 복구
+                    // 1. 아래 버튼: 원래대로
                     btn.html('<span class="flaticon-like"></span> 찜하기');
                     
-                    // 2. 위쪽 하트 아이콘: 빈 하트(flaticon-heart)로 복구 + 색상 초기화
-                    topHeartIcon.removeClass('fas fa-heart').addClass('flaticon-heart');
+                    // 2. 위쪽 하트 아이콘: 원래대로
+                    topHeartIcon.removeClass('fas fa-heart heart-active');
+                    topHeartIcon.addClass('flaticon-heart');
+                    
+                    // 강제로 들어갔을지 모를 CSS 색상 제거
                     topHeartIcon.css('color', ''); 
                 }
             });
