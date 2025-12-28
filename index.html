@@ -680,36 +680,50 @@
     <script src="https://ogaeng.com/external/burger/js/custom.js"></script>
 
     <script type="text/javascript">
-    // 기존 예약 폼 스크립트
-    $('#rvform').submit(function() {
-        document.getElementById('rvform').style.display = 'none';
-        document.getElementById('thankyou_message').style.display = 'block';
-        return false;
-    });
-
-    // [추가된 부분] 찜하기 버튼 클릭 이벤트
-    $(document).ready(function() {
-        // data-target="#wishlist" 속성을 가진 모든 버튼(a태그)에 클릭 이벤트 적용
-        $('a[data-target="#wishlist"]').click(function() {
-            
-            // 현재 클릭한 버튼
-            var btn = $(this);
-
-            // 1. 'btn-liked' 클래스를 토글 (있으면 빼고, 없으면 넣음)
-            btn.toggleClass('btn-liked');
-
-            // 2. 상태에 따라 아이콘과 텍스트 변경
-            if (btn.hasClass('btn-liked')) {
-                // 찜하기 상태가 되었을 때: 꽉 찬 하트 아이콘 + '찜 완료' 텍스트
-                // fas fa-heart는 FontAwesome의 꽉 찬 하트 아이콘입니다.
-                btn.html('<span class="fas fa-heart"></span> 찜 완료'); 
-            } else {
-                // 찜하기 취소 상태일 때: 원래 빈 하트 아이콘 + '찜하기' 텍스트
-                btn.html('<span class="flaticon-like"></span> 찜하기');
-            }
+        // 1. 예약 폼 전송 스크립트
+        $('#rvform').submit(function() {
+            document.getElementById('rvform').style.display = 'none'; 
+            document.getElementById('thankyou_message').style.display = 'block';
+            return false;
         });
-    });
-</script>
+
+        // 2. 찜하기 버튼 & 오른쪽 위 하트 아이콘 연동 스크립트
+        $(document).ready(function() {
+            $('a[data-target="#wishlist"]').click(function() {
+                
+                // 지금 클릭한 '찜하기' 버튼
+                var btn = $(this);
+                
+                // 버튼의 부모 요소(메뉴 박스 전체)를 찾고, 그 안에서 '오른쪽 위 하트 아이콘' 찾기
+                var parentBox = btn.closest('.menu-7-item');
+                var topHeartIcon = parentBox.find('.like-ico span');
+
+                // 버튼 클래스 토글 (활성화 여부)
+                btn.toggleClass('btn-liked');
+
+                if (btn.hasClass('btn-liked')) {
+                    // [찜하기 상태 ON]
+                    
+                    // 1. 아래 버튼: 빨간 배경 + '찜 완료' + 꽉 찬 하트
+                    btn.html('<span class="fas fa-heart"></span> 찜 완료'); 
+                    
+                    // 2. 위쪽 하트 아이콘: 꽉 찬 하트(fas fa-heart)로 변경 + 빨간색(#e3000e)
+                    topHeartIcon.removeClass('flaticon-heart').addClass('fas fa-heart');
+                    topHeartIcon.css('color', '#e3000e');
+
+                } else {
+                    // [찜하기 상태 OFF]
+                    
+                    // 1. 아래 버튼: 원래대로 복구
+                    btn.html('<span class="flaticon-like"></span> 찜하기');
+                    
+                    // 2. 위쪽 하트 아이콘: 빈 하트(flaticon-heart)로 복구 + 색상 초기화
+                    topHeartIcon.removeClass('fas fa-heart').addClass('flaticon-heart');
+                    topHeartIcon.css('color', ''); 
+                }
+            });
+        });
+    </script>
 
 </body>
 
